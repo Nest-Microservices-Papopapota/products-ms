@@ -78,4 +78,24 @@ export class ProductsService {
     })
     return product;
   }
+
+  async validateProducts(
+    ids: number[]
+  ) {
+    ids = Array.from(new Set(ids));
+    const products = await this.prisma.product.findMany({
+      where: {
+        id: { in: ids },
+        available: true
+      }
+    })
+
+    if (products.length !== ids.length) {
+      throw new RpcException({
+        message: `Some products with the provided IDs are not available or do not exist`,
+        status: HttpStatus.BAD_REQUEST
+      });
+    }
+    return products;
+  }
 }
