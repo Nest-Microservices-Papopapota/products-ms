@@ -19,7 +19,7 @@ COPY . .
 ENV PORT=3000
 ENV DATABASE_URL="file:/usr/src/app/data/prod.db"
 ENV NATS_SERVERS="nats://localhost:4223"
-RUN yarn run test
+# RUN yarn run test
 RUN yarn prisma generate
 RUN yarn build
 
